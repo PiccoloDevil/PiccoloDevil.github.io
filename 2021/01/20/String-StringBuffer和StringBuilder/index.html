@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Piccolo Devil">
+    
+    <title>
+        
+            String StringBuffer和StringBuilder |
+        
+        妖精仓库
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/chtholly_logo.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"yoursite.com","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/chtholly.png","favicon":"/images/chtholly_logo.jpg","article_img_align":"center","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":true},"first_screen":{"enable":true,"background_img":"/images/chtholly_bg2.jpg","description":null},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fas fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                妖精仓库
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">String StringBuffer和StringBuilder</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/chtholly.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Piccolo Devil</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-01-20 16:24:03
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Java/">Java</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Java/">Java</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>4.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>18 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>本篇详细的介绍了Java中String、StringBuffer和StringBuilder的区别</p>
+<span id="more"></span>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><h3 id="String创建对象的两种方式"><a href="#String创建对象的两种方式" class="headerlink" title="String创建对象的两种方式"></a>String创建对象的两种方式</h3><ol>
+<li>通过new创建的字符串对象，每一次new都会申请一个内存空间，不管内容是否相同，每次申请的内存空间地址值都是不同的</li>
+<li>以””直接赋值的方式创建的字符串对象，是在常量池中维护的。在通过这种方式创建字符串对象时，JVM会在常量池中查找有没有已经存在的值和要创建的值相同的对象，如果有就把它赋给当前引用，如果没有就在常量池中重新创建一个 String 对象</li>
+</ol>
+<p>如果对字符串进行拼接操作，每次拼接都会创建一个新的String对象，然后将引用指向新的 String 对象，这种不可避免的操作既耗时又浪费内存空间，Java提供的StringBuilder类可以解决这个问题</p>
+<h3 id="String是不可变的"><a href="#String是不可变的" class="headerlink" title="String是不可变的"></a>String是不可变的</h3><h4 id="String的不可变是什么意思？"><a href="#String的不可变是什么意思？" class="headerlink" title="String的不可变是什么意思？"></a><strong>String的不可变是什么意思？</strong></h4><p>  不可变是指，若存在一个字符串”hello”，第二次给它赋值成“helloworld”，此时是在内存中新建了一个对象，并将引用变量指向新对象地址，原对象中的内容仍然是”hello”，String一旦赋值即不可变</p>
+<h4 id="为什么String是不可变的？"><a href="#为什么String是不可变的？" class="headerlink" title="为什么String是不可变的？"></a><strong>为什么String是不可变的？</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br></pre></td></tr></table></figure>
+<p>观察String的源码，String类是用final关键字修饰的，这说明String<strong>不可继承</strong>。然后<code>private final char value[]</code>可见<code>String</code> 类中使用 final 关键字修饰字符数组来保存字符串，这说明String是<strong>不可变的</strong></p>
+<blockquote>
+<p>在 Java 9 之后，String 类的实现改用 byte 数组存储字符串 <code>private final byte[] value</code>;</p>
+</blockquote>
+<h4 id="关于String不可变的小问题"><a href="#关于String不可变的小问题" class="headerlink" title="关于String不可变的小问题"></a>关于String不可变的小问题</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">    str = str + <span class="string">&quot;World&quot;</span>;</span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码，执行结果是HelloWorld，发现String的值发生了改变。那么，问题出在哪？</p>
+<p>利用反编译分析的结果，在使用<code>+</code>进行字符串的拼接的时候，实际上jvm是初始化了一个<code>StringBuilder</code>进行拼接的</p>
+<p>相当于实际执行的代码段如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">    <span class="comment">//str = str + &quot;World&quot;;</span></span><br><span class="line">    StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    stringBuilder.append(str).append(<span class="string">&quot;World&quot;</span>);</span><br><span class="line">    str = stringBuilder.toString();</span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再延伸一个问题，观察下列代码段，判断程序输出结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str = <span class="keyword">null</span>;</span><br><span class="line">    str = str + <span class="string">&quot;&quot;</span>;</span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>答案是输出<strong>null</strong>。因为<code>+</code>实际上是调用<code>StringBuilder</code>的<code>append()</code>方法</p>
+<p>再分析一下<code>StringBuilder</code>中<code>append()</code>方法的源码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> StringBuilder <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.append(str);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再定位到父类的<code>append()</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> AbstractStringBuilder <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> appendNull();</span><br><span class="line">    <span class="keyword">int</span> len = str.length();</span><br><span class="line">    ensureCapacityInternal(count + len);</span><br><span class="line">    str.getChars(<span class="number">0</span>, len, value, count);</span><br><span class="line">    count += len;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再查看<code>appendNull()</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> AbstractStringBuilder <span class="title">appendNull</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c = count;</span><br><span class="line">    ensureCapacityInternal(c + <span class="number">4</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">char</span>[] value = <span class="keyword">this</span>.value;</span><br><span class="line">    value[c++] = <span class="string">&#x27;n&#x27;</span>;</span><br><span class="line">    value[c++] = <span class="string">&#x27;u&#x27;</span>;</span><br><span class="line">    value[c++] = <span class="string">&#x27;l&#x27;</span>;</span><br><span class="line">    value[c++] = <span class="string">&#x27;l&#x27;</span>;</span><br><span class="line">    count = c;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以，如果传入的字符串是<code>null</code>时，调用<code>appendNull()</code>方法，返回null</p>
+<h2 id="StringBuffer"><a href="#StringBuffer" class="headerlink" title="StringBuffer"></a>StringBuffer</h2><h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//无参构造，创建一个空的StringBuffer对象</span></span><br><span class="line">    StringBuffer stringBuffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuffer:&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取长度</span></span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuffer的长度:&quot;</span> + stringBuffer.length());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参构造</span></span><br><span class="line">    stringBuffer = <span class="keyword">new</span> StringBuffer(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuffer:&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据索引取值</span></span><br><span class="line">    System.out.println(<span class="string">&quot;下标为2的字符是：&quot;</span> + stringBuffer.charAt(<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加：append()</span></span><br><span class="line">    stringBuffer = stringBuffer.append(<span class="string">&quot; Java&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;append之后的StringBuffer：&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除指定区间内的字符：delete(int start, int end)</span></span><br><span class="line">    stringBuffer = stringBuffer.delete(<span class="number">6</span>, <span class="number">12</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;delete之后的StringBuffer：&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除指定索引位置处的字符：deleteCharAt(int index)</span></span><br><span class="line">    stringBuffer = stringBuffer.deleteCharAt(<span class="number">3</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;deleteCharAt之后的StringBuffer：&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将指定区间内的值替换：replace(int start, int end, String str)</span></span><br><span class="line">    stringBuffer = stringBuffer.replace(<span class="number">0</span>, <span class="number">4</span>, <span class="string">&quot;StringBuffer&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;replace之后的StringBuffer：&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//截取字符串（从指定位置到结尾）：substring(int start)</span></span><br><span class="line">    String str = stringBuffer.substring(<span class="number">6</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;substring之后的String：&quot;</span> + str);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//截取字符串（从指定位置到指定位置）：substring(int start, int end)</span></span><br><span class="line">    str = stringBuffer.substring(<span class="number">0</span>, <span class="number">12</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;substring之后的String：&quot;</span> + str);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//向指定位置插入：insert(int offset, String str)</span></span><br><span class="line">    stringBuffer = stringBuffer.insert(<span class="number">0</span>, <span class="string">&quot;Hello &quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;insert之后的StringBuffer：&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从头开始查找指定字符的索引位置：indexOf(String str)</span></span><br><span class="line">    System.out.println(<span class="string">&quot;Java的下标是：&quot;</span> + stringBuffer.indexOf(<span class="string">&quot;Java&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从指定位置开始查找指定字符的索引位置：indexOf(String str, int fromIndex)</span></span><br><span class="line">    System.out.println(<span class="string">&quot;下标21之后的a的下标是：&quot;</span> + stringBuffer.indexOf(<span class="string">&quot;a&quot;</span>, <span class="number">21</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//字符串反转：reverse()</span></span><br><span class="line">    stringBuffer = stringBuffer.reverse();</span><br><span class="line">    System.out.println(<span class="string">&quot;reverse之后的StringBuffer：&quot;</span> + stringBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回StringBuffer对应的String：toString()</span></span><br><span class="line">    str = stringBuffer.toString();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuffer对应的String：&quot;</span> + str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuffer</span></span></span><br><span class="line"><span class="class">   <span class="keyword">extends</span> <span class="title">AbstractStringBuilder</span></span></span><br><span class="line"><span class="class">   <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">CharSequence</span></span></span><br></pre></td></tr></table></figure>
+<p><code>StringBuffer</code>类继承自<code>AbstractStringBuilder</code>类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title">Appendable</span>, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The value is used for character storage.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">char</span>[] value;</span><br></pre></td></tr></table></figure>
+<p><code>AbstractStringBuilder</code>类底层实现中也是使用字符数组保存字符串，且该字符数组没有用<code>final</code>关键字修饰，所以内容是<strong>可变的</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a string buffer with no characters in it and an</span></span><br><span class="line"><span class="comment"> * initial capacity of 16 characters.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">StringBuffer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>StringBuffer</code>底层用数组来存储字符串的值，并且数组的默认长度是16。实例化一个空的<code>StringBuffer</code>对象即创建了一个大小为16个字符的字符串缓冲区</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a string buffer initialized to the contents of the</span></span><br><span class="line"><span class="comment"> * specified string. The initial capacity of the string buffer is</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> 16&#125; plus the length of the string argument.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>   str   the initial contents of the buffer.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">StringBuffer</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(str.length() + <span class="number">16</span>);</span><br><span class="line">    append(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当调用带参构造创建<code>StringBuffer</code>对象时，字符数组的长度为传入的参数的长度+16。根据源码，<code>super(str.length() + 16);</code>创建一个长度为str长度+16的字符串缓冲区，<code>append(str);</code>将str添加到字符串数组中。这意味着一个StringBuffer对象创建完成后，可以有16个字符的缓冲空间以供对其值进行修改。</p>
+<p>那么如果修改的值范围超过了16呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minimumCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.ensureCapacity(minimumCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minimumCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (minimumCapacity &gt; <span class="number">0</span>)</span><br><span class="line">        ensureCapacityInternal(minimumCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * For positive values of &#123;<span class="doctag">@code</span> minimumCapacity&#125;, this method</span></span><br><span class="line"><span class="comment"> * behaves like &#123;<span class="doctag">@code</span> ensureCapacity&#125;, however it is never</span></span><br><span class="line"><span class="comment"> * synchronized.</span></span><br><span class="line"><span class="comment"> * If &#123;<span class="doctag">@code</span> minimumCapacity&#125; is non positive due to numeric</span></span><br><span class="line"><span class="comment"> * overflow, this method throws &#123;<span class="doctag">@code</span> OutOfMemoryError&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minimumCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">if</span> (minimumCapacity - value.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        value = Arrays.copyOf(value,</span><br><span class="line">                newCapacity(minimumCapacity));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发现，如果修改的值超过了缓冲区的容量，会调用<code>ensureCapacityInternal()</code>方法来检查<code>StringBuffer</code>对象的原char数组长度能否满足要求，如果不能，则对数组进行扩容。扩容完成后调用<code>Arrays.copyOf()</code>方法完成数据的拷贝，<code>Arrays.copyOf()</code>底层是调用<code>System.arryCopy()</code>，将原数组内容拷贝到新数组，然后将引用指向新的数组</p>
+<h4 id="扩容的逻辑"><a href="#扩容的逻辑" class="headerlink" title="扩容的逻辑"></a>扩容的逻辑</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a capacity at least as large as the given minimum capacity.</span></span><br><span class="line"><span class="comment"> * Returns the current capacity increased by the same amount + 2 if</span></span><br><span class="line"><span class="comment"> * that suffices.</span></span><br><span class="line"><span class="comment"> * Will not return a capacity greater than &#123;<span class="doctag">@code</span> MAX_ARRAY_SIZE&#125;</span></span><br><span class="line"><span class="comment"> * unless the given minimum capacity is greater than that.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> OutOfMemoryError if minCapacity is less than zero or</span></span><br><span class="line"><span class="comment"> *         greater than Integer.MAX_VALUE</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">newCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = (value.length &lt;&lt; <span class="number">1</span>) + <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (newCapacity &lt;= <span class="number">0</span> || MAX_ARRAY_SIZE - newCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        ? hugeCapacity(minCapacity)</span><br><span class="line">        : newCapacity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Integer.MAX_VALUE - minCapacity &lt; <span class="number">0</span>) &#123; <span class="comment">// overflow</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE)</span><br><span class="line">        ? minCapacity : MAX_ARRAY_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从源码和注释我们能看出，扩容的逻辑实际上是：</p>
+<ol>
+<li><p>将现有的<strong>容量*2+2</strong></p>
+<blockquote>
+<p>关于为什么扩容是两倍+2？</p>
+<ul>
+<li>旧版本的JDK，扩容语句是 <code>(value.length + 1) * 2</code> 先加一再乘2，推测原意思是扩容的话至少增添一个空间再乘2，兼顾到扩容的次数和要减少扩容过大浪费的空间</li>
+<li><code>newCapacity(int)</code>的传入参数有可能是0，<code>0&lt;&lt;1</code>结果还是0，如果没有+2，在数组初始化的时候就会报错，所以考虑到设计的安全性，防止出现报错，选择了+2</li>
+</ul>
+</blockquote>
+</li>
+<li><p>再判断这个扩容后的容量是否满足要求，如果还是不满足，就直接扩大到需要的容量</p>
+</li>
+<li><p>然后还需要对扩容后的新数组大小进行检查，若新数组大于<code>Interger.MAX_VALUE</code>，则报<code>OutOfMemoryError()</code>异常</p>
+</li>
+</ol>
+<h3 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h3><p>StringBuffer对所有实现的方法几乎都添加了 synchronized 关键字修饰，实现了同步，保证了数据同步和线程安全</p>
+<blockquote>
+<p>但是方法同步需要消耗一定的系统资源，所以 StringBuffer 虽然安全，但是效率不如 StringBuilder</p>
+</blockquote>
+<h2 id="StringBuilder"><a href="#StringBuilder" class="headerlink" title="StringBuilder"></a>StringBuilder</h2><p>StringBuilder是一个可变的字符串类，可变是指StringBuilder对象中的内容可变</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210120/String_Overview.12w9t81zloy8.png" alt="String_Overview"></p>
+<h3 id="常用方法-1"><a href="#常用方法-1" class="headerlink" title="常用方法"></a>常用方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//无参构造</span></span><br><span class="line">    StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuilder:&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取长度</span></span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuilder的长度:&quot;</span> + stringBuilder.length());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参构造</span></span><br><span class="line">    stringBuilder = <span class="keyword">new</span> StringBuilder(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuilder:&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据索引取值</span></span><br><span class="line">    System.out.println(<span class="string">&quot;下标为2的字符是：&quot;</span> + stringBuilder.charAt(<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加：append()</span></span><br><span class="line">    stringBuilder = stringBuilder.append(<span class="string">&quot; Java&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;append之后的StringBuilder：&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除指定区间内的字符：delete(int start, int end)</span></span><br><span class="line">    stringBuilder = stringBuilder.delete(<span class="number">6</span>, <span class="number">12</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;delete之后的StringBuilder：&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除指定索引位置处的字符：deleteCharAt(int index)</span></span><br><span class="line">    stringBuilder = stringBuilder.deleteCharAt(<span class="number">3</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;deleteCharAt之后的StringBuilder：&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将指定区间内的值替换：replace(int start, int end, String str)</span></span><br><span class="line">    stringBuilder = stringBuilder.replace(<span class="number">0</span>, <span class="number">4</span>, <span class="string">&quot;StringBuilder&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;replace之后的StringBuilder：&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//截取字符串（从指定位置到结尾）：substring(int start)</span></span><br><span class="line">    String str = stringBuilder.substring(<span class="number">6</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;substring之后的String：&quot;</span> + str);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//截取字符串（从指定位置到指定位置）：substring(int start, int end)</span></span><br><span class="line">    str = stringBuilder.substring(<span class="number">0</span>, <span class="number">12</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;substring之后的String：&quot;</span> + str);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//向指定位置插入：insert(int offset, String str)</span></span><br><span class="line">    stringBuilder = stringBuilder.insert(<span class="number">0</span>, <span class="string">&quot;Hello &quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;insert之后的StringBuilder：&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从头开始查找指定字符的索引位置：indexOf(String str)</span></span><br><span class="line">    System.out.println(<span class="string">&quot;Java的下标是：&quot;</span> + stringBuilder.indexOf(<span class="string">&quot;Java&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从指定位置开始查找指定字符的索引位置：indexOf(String str, int fromIndex)</span></span><br><span class="line">    System.out.println(<span class="string">&quot;下标8之后的a的下标是：&quot;</span> + stringBuilder.indexOf(<span class="string">&quot;a&quot;</span>, <span class="number">8</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//字符串反转：reverse()</span></span><br><span class="line">    stringBuilder = stringBuilder.reverse();</span><br><span class="line">    System.out.println(<span class="string">&quot;reverse之后的StringBuilder：&quot;</span> + stringBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回StringBuffer对应的String：toString()</span></span><br><span class="line">    str = stringBuilder.toString();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuilder对应的String：&quot;</span> + str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="源码分析-1"><a href="#源码分析-1" class="headerlink" title="源码分析"></a>源码分析</h3><p>观察<code>StringBuilder</code>源码，发现<code>StringBuiler</code>与<code>StringBuffer</code>继承自同一个父类<code>AbstractStringBuilder</code>，实现的接口也是完全一样的。<code>StringBuiler</code>与<code>StringBuffer</code>最大的区别就是，<code>StringBuffer</code>对几乎所有的方法都添加了<code>synchronized</code>关键字修饰实现了同步，而<code>StringBuiler</code>没有实现同步，所以<code>StringBuiler</code>无法保证线程安全</p>
+<h3 id="线程不安全"><a href="#线程不安全" class="headerlink" title="线程不安全"></a>线程不安全</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="comment">//开启10个线程</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="comment">//每个线程添加1000个字符&quot;a&quot;</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">                    stringBuilder.append(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//若是线程安全，则执行完毕后stringBuilder的长度应该为10*1000=10000</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Thread.sleep(<span class="number">100</span>);</span><br><span class="line">        System.out.println(stringBuilder.length());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分析上述代码运行结果，具体讨论下关于StringBuilder的线程不安全性</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210120/StringBuilder_NotSafe.5bswhwk4dcg0.png" alt="StringBuilder_NotSafe"></p>
+<p>运行结果是，输出的长度是比10000小的，且多运行几次会发现，有可能会出现数组越界异常</p>
+<p><strong>首先，分析为什么达不到10000？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> AbstractStringBuilder <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> appendNull();</span><br><span class="line">    <span class="keyword">int</span> len = str.length();</span><br><span class="line">    ensureCapacityInternal(count + len);</span><br><span class="line">    str.getChars(<span class="number">0</span>, len, value, count);</span><br><span class="line">    count += len;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>观察<code>append()</code>的源码，<code>count += len;</code>这条语句在多线程同时访问时很可能会出现计数错误。比如<code>count = 0，len = 1</code>，两个线程同时执行到这一行，获取的 count 都是 0，执行的结果都是 1，所以最终 count 的值为 1，而不是 2。这就解释了为什么最终的结果达不到预期大小的原因。</p>
+<p><strong>然后，为什么会出现数组越界异常呢？</strong></p>
+<p>字符的添加是通过调用<code>putStringAt(count,str)</code>方法完成的，count 为当前字符串的长度，通过 <code>ensureCapacityinternal(count+len)</code>方法对数组进行扩容之后，它一定是小于等于数组最大容量的，<code>putStringAt(count,str)</code>方法中每添加一个字符，都会给 count 加 1，当到达数组长度上限之后再进行扩容</p>
+<p>但是如果是两个线程同时执行<code>putStringAt(count,str)</code>，假设此时的 count = 3，数组容量为 4，两个线程拿到的 count 都为 3，数组容量大于 count，所以并不会进行扩容，这就意味着只剩一个空间，要插入两个字符，线程 A 执行完毕，count 变为 4，已经占满了整个数组，所以线程 B 执行的时候，超出了数组的长度，抛出异常</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210120/StringBuilder_Error.27uyug7otyo0.jpg" alt="StringBuilder_Error"></p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><h3 id="效率对比"><a href="#效率对比" class="headerlink" title="效率对比"></a>效率对比</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//String</span></span><br><span class="line">    <span class="keyword">long</span> startTime1 = System.currentTimeMillis();</span><br><span class="line">    String s1 = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">50000</span>; i++) &#123;</span><br><span class="line">        s1 += i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> endTime1 = System.currentTimeMillis();</span><br><span class="line">    System.out.println(<span class="string">&quot;String类型操作耗时&quot;</span> + (endTime1 - startTime1) + <span class="string">&quot;毫秒&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//StringBuffer</span></span><br><span class="line">    <span class="keyword">long</span> startTime2 = System.currentTimeMillis();</span><br><span class="line">    StringBuffer s2 = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">50000</span>; i++) &#123;</span><br><span class="line">        s2.append(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> endTime2 = System.currentTimeMillis();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuffer类型操作耗时&quot;</span> + (endTime2 - startTime2) + <span class="string">&quot;毫秒&quot;</span>);</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;========================================================&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//StringBuffer</span></span><br><span class="line">    <span class="keyword">long</span> startTime3 = System.currentTimeMillis();</span><br><span class="line">    StringBuffer s3 = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5000000</span>; i++) &#123;</span><br><span class="line">        s3.append(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> endTime3 = System.currentTimeMillis();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuffer类型操作耗时&quot;</span> + (endTime3 - startTime3) + <span class="string">&quot;毫秒&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//StringBuilder</span></span><br><span class="line">    <span class="keyword">long</span> startTime4 = System.currentTimeMillis();</span><br><span class="line">    StringBuilder s4 = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5000000</span>; i++) &#123;</span><br><span class="line">        s4.append(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> endTime4 = System.currentTimeMillis();</span><br><span class="line">    System.out.println(<span class="string">&quot;StringBuilder类型操作耗时&quot;</span> + (endTime4 - startTime4) + <span class="string">&quot;毫秒&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210120/Compare_String_Buffer_Builder.1tyh44ksjuow.png" alt="Compare_String_Buffer_Builder"></p>
+<p>从测试结果来看，对字符串进行大量次数的拼接操作，<code>StringBuffer</code>比<code>String</code>的耗时要小得多。但是同时对比<code>StringBuffer</code>与<code>StringBuilder</code>的操作耗时，由于<code>StringBuffer</code>线程同步需要消耗一定的系统资源，所以效率不如<code>StringBuilder</code>，但是<code>StringBuffer</code>比<code>StringBuilder</code>更安全</p>
+<h3 id="StringBuilder-的效率一定就比-String-更高吗？"><a href="#StringBuilder-的效率一定就比-String-更高吗？" class="headerlink" title="StringBuilder 的效率一定就比 String 更高吗？"></a>StringBuilder 的效率一定就比 String 更高吗？</h3><p>会存在这个问题，就说明答案显然是不一定(￣▽￣)”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">&quot;Hello&quot;</span>+<span class="string">&quot;World&quot;</span>;</span><br><span class="line">StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">stringBuilder.append(<span class="string">&quot;World&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>上面这种情况下，直接使用String创建对象的效率更高</p>
+<p>因为String对象的<strong>直接拼接</strong>，JVM会自动对其进行优化，也就是说”Hello”+”World”在<strong>编译期间</strong>会自动优化为”HelloWorld”，直接一次性创建完成，所以效率肯定要高于StringBuffer的append拼接</p>
+<p>但是要注意区分直接拼接和间接拼接</p>
+<h3 id="直接拼接与间接拼接"><a href="#直接拼接与间接拼接" class="headerlink" title="直接拼接与间接拼接"></a>直接拼接与间接拼接</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接拼接</span></span><br><span class="line">String str1 = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">String str2 = <span class="string">&quot;Hello&quot;</span> + <span class="string">&quot; World&quot;</span>;</span><br><span class="line">System.out.println(str1 == str2);<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//间接拼接</span></span><br><span class="line">String str11 = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">String str22 = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">String str33 = str22 + <span class="string">&quot; World&quot;</span>;</span><br><span class="line">System.out.println(str11 == str33);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p><strong>分析：</strong></p>
+<ul>
+<li>“Hello”+”World”在编译期间会被JVM自动优化成”Hello World”，是一个字符串常量，由于常量池中已存在”Hello World”，所以指向同一个对象</li>
+<li>str2 + “ World” 对变量进行的间接拼接，JVM在编译期间不会自动优化，相当于新建了一个对象</li>
+</ul>
+<h4 id="【补】代码分析"><a href="#【补】代码分析" class="headerlink" title="【补】代码分析"></a><strong>【补】代码分析</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">    test(str);</span><br><span class="line">    System.out.println(str);    <span class="comment">//输出：Hello</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    str += <span class="string">&quot;World&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分析：String不可变，Java是值传递，方法内改变的只是副本（新对象）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    StringBuffer str = <span class="keyword">new</span> StringBuffer(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">    test(str);</span><br><span class="line">    System.out.println(str);    <span class="comment">//输出：Hello World</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(StringBuffer str)</span> </span>&#123;</span><br><span class="line">    str.append(<span class="string">&quot; World&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分析：StringBuffer可变，且append()源码中是<code>return this;</code>，即是在当前对象后面追加元素并返回当前对象</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><strong>可变与不可变</strong></li>
+</ol>
+<ul>
+<li><p>String 不可变</p>
+</li>
+<li><p>StringBuffer 和 StringBuilder 可变</p>
+</li>
+</ul>
+<ol>
+<li><p><strong>线程是否安全</strong></p>
+<ul>
+<li><p>String 和 StringBuffer 线程安全</p>
+</li>
+<li><p>StringBuilder 线程不安全</p>
+</li>
+</ul>
+</li>
+<li><p><strong>是否重写 equals() 和 hashCode() 方法</strong></p>
+</li>
+</ol>
+<ul>
+<li>String 重写了 equals() 和 hashCode() 方法<ul>
+<li>StringBuffer 和 StringBuilder 没有重写 equals() 和 hashCode() 方法</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>当需要对字符串对象进行频繁的修改时，使用 StringBuffer 可以极大提升程序的效率。在需要考虑线程安全的场景下我们可以使用  StringBuffer ，不需要考虑线程安全，追求更高效率的场景下可以使用 StringBuilder</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a class="link" target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/dltB1Fzwdezs4PDN8Thx6w">https://mp.weixin.qq.com/s/dltB1Fzwdezs4PDN8Thx6w<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.cnblogs.com/DMingO/p/13407303.html">https://www.cnblogs.com/DMingO/p/13407303.html<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/01/24/JavaScript%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JavaScript基础语法</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/01/19/Java%E7%9A%84%E5%80%BC%E4%BC%A0%E9%80%92/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Java的值传递</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2018</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Piccolo Devil</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#String%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-text">String创建对象的两种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84"><span class="nav-text">String是不可变的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D%EF%BC%9F"><span class="nav-text">String的不可变是什么意思？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88String%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84%EF%BC%9F"><span class="nav-text">为什么String是不可变的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EString%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98"><span class="nav-text">关于String不可变的小问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringBuffer"><span class="nav-text">StringBuffer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E5%AE%B9%E7%9A%84%E9%80%BB%E8%BE%91"><span class="nav-text">扩容的逻辑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">线程安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringBuilder"><span class="nav-text">StringBuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-1"><span class="nav-text">源码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8"><span class="nav-text">线程不安全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94"><span class="nav-text">对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94"><span class="nav-text">效率对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuilder-%E7%9A%84%E6%95%88%E7%8E%87%E4%B8%80%E5%AE%9A%E5%B0%B1%E6%AF%94-String-%E6%9B%B4%E9%AB%98%E5%90%97%EF%BC%9F"><span class="nav-text">StringBuilder 的效率一定就比 String 更高吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%8B%BC%E6%8E%A5%E4%B8%8E%E9%97%B4%E6%8E%A5%E6%8B%BC%E6%8E%A5"><span class="nav-text">直接拼接与间接拼接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%80%90%E8%A1%A5%E3%80%91%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">【补】代码分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-text">References</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/code-copy.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts pjax">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/toc.js"></script>
+    
+</div>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd();
+            pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            KEEP.refresh();
+        });
+    });
+</script>
+
+
+
+</body>
+</html>

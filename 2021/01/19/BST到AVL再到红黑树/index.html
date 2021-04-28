@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Piccolo Devil">
+    
+    <title>
+        
+            BST到AVL再到红黑树 |
+        
+        妖精仓库
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/chtholly_logo.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"yoursite.com","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/chtholly.png","favicon":"/images/chtholly_logo.jpg","article_img_align":"center","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":true},"first_screen":{"enable":true,"background_img":"/images/chtholly_bg2.jpg","description":null},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fas fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                妖精仓库
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">BST到AVL再到红黑树</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/chtholly.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Piccolo Devil</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-01-19 14:39:29
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>3.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>10 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>本篇介绍了从二叉搜索树到平衡二叉树，最后演变成红黑树的全过程，循序渐进的理解这几种数据结构的优化演变过程</p>
+<span id="more"></span>
+<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><p>二叉树的一个重要应用就是用于解决查找问题，二叉搜索树（Binary Search Tree）是满足这样一个条件的二叉树：<strong>对于树中的每个节点X，它的左子树中所有关键字值小于X的关键字值，而它的右子树中所有关键字值大于X的关键字值</strong></p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/BST.25ch9ghv5ups.png" alt="BST"></p>
+<h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p><strong>查找</strong></p>
+<p>例如要查找数值7，查找的过程如下：</p>
+<ol>
+<li>7与根节点6比较，7 &gt; 6，进入右子树</li>
+<li>7与根节点8比较，7 &lt; 8，进入左子树</li>
+<li>7与根节点7比较，7 == 7，查找成功</li>
+</ol>
+<p><strong>插入</strong></p>
+<p>插入操作类似，每一层只需要比较一个节点</p>
+<p><strong>分析</strong></p>
+<p>通过上述过程的分析，不难发现二叉搜索树的时间复杂度依赖于树的深度，对于节点数值分布均匀的树来说，深度是<code>logn</code>数量级</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/BST_analysis.2c3ai43ouon4.png" alt="BST_analysis"></p>
+<h4 id="对比有序数组"><a href="#对比有序数组" class="headerlink" title="对比有序数组"></a>对比有序数组</h4><p>分析二叉搜索树的操作过程，很容易联想到二分操作。那么对一个有序的数组进行二分操作，与二叉搜索树是否相同呢？</p>
+<p>答案显然是并不相同，但二者存在相似性。对一个有序数组进行二分查找时，也是每次比较中间元素（相当于根节点），大于中间元素值则递归去查找右子表（对应于进入右子树），直至查找结束。故有序数组的二分查找，时间复杂度也是<code>O(logn)</code></p>
+<p>区别在于插入和删除操作，有序数组找到插入点和删除点后，需要进行元素的移动操作。查找插入位置用二分查找是<code>O(logn)</code>，将插入位置后的元素全部后移一位，时间复杂度<code>O(n)</code>，所以总的时间复杂度是<code>O(n)</code>（ O(logn)+O(n)=O(n) ）。删除操作类似，只是删除位置后所有元素前移一位，时间复杂度也为<code>O(n)</code></p>
+<h4 id="BST的缺陷"><a href="#BST的缺陷" class="headerlink" title="BST的缺陷"></a>BST的缺陷</h4><p>由上图给出的二叉搜索树的复杂度，最坏情况下的操作复杂度都为<code>O(n)</code>，这是为什么呢？</p>
+<p>考虑一种特殊情况，插入的数据是有序的，此时二叉搜索树退化成链表</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/BST_shortage.4qgl65favny0.png" alt="BST_shortage"></p>
+<h3 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a>AVL树</h3><p>自平衡二叉查找树（Adelson-Velsky and Landis Tree）</p>
+<p>上面我们知道了二叉搜索树的一个缺陷是，最坏情况下的复杂度会退化成<code>O(n)</code>，这点也是源于BST的时间复杂度依赖于树的深度</p>
+<p>那么就可以想到通过控制树的深度去优化算法，于是AVL树诞生了</p>
+<h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4><p>AVL树是一种特殊的二叉搜索树，在AVL树中，任一节点对应的两棵子树的最大高度差为1（这种“平衡”的条件实则是有些苛刻的…）</p>
+<h4 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>类似于二叉搜索树，不同的是由于AVL树对深度的自平衡控制，使得AVL树的查找、插入和删除在平均和最坏情况下的时间复杂度都是<code>O(logn)</code></p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/AVL.2f33ycno9g00.png" alt="AVL"></p>
+<h4 id="左旋右旋"><a href="#左旋右旋" class="headerlink" title="左旋右旋"></a>左旋右旋</h4><p>节点的<strong>平衡因子</strong>是它的左子树的高度减去它的右子树的高度，带有平衡因子1、0或 -1的节点被认为是平衡的。由于平衡条件并不总是满足的，为了维持AVL树的平衡，需要进行一次或多次旋转操作</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/AVL_turn.59dkcet8mhg0.png" alt="AVL_turn"></p>
+<p><strong>分析上图：</strong>（依自己理解所表述）</p>
+<ul>
+<li><p>左左情况：失衡的根节点沿两次左子树方向到达导致失衡的最小子树根节点处，需要进行一次右旋</p>
+<p>右旋时三个节点位于一条左斜的直线上（5，3，2），以中间节点（3）为支点，先将中间节点（3）的右子树（B）无视，将失衡根节点（5）右旋到中间节点（3）的右子树上，同时保留失衡节点（5）的右子树（A）情况，最后将中间节点（3）的右子树（B）插入到正确位置（由于B比3大比5小，所以插在5的左子树上），平衡，完毕</p>
+</li>
+<li><p>右右情况：失衡的根节点沿两次右子树方向到达导致失衡的最小子树根节点处，需要进行一次左旋</p>
+<p>左旋时三个节点位于一条右斜的直线上（3，5，7），以中间节点（5）为支点，先将中间节点（5）的左子树（B）无视，将失衡根节点（3）左旋到中间节点（5）的左子树上，同时保留失衡节点（3）的左子树（A）情况，最后将中间节点（5）的左子树（B）插入到正确位置（由于B比3大比5小，所以插在3的右子树上），平衡，完毕</p>
+</li>
+<li><p>左右情况：失衡的根节点沿一次左子树方向和一次右子树方向到达导致失衡的最小子树根节点处，需要先进行一次左旋，转变成左左情况，再进行一次右旋</p>
+<p>对于左右情况的左旋，是将失衡节点（5）的左子树（也可理解为失衡部分）根节点（3）进行左旋，旋转的支点是“左右”中的“右”（4），旋转操作过程类比上述过程，不再赘述。一次左旋后，整体的树变成了左左情况，再相应进行一次右旋即可实现平衡</p>
+</li>
+<li><p>右左情况：失衡的根节点沿一次右子树方向和一次左子树方向到达导致失衡的最小子树根节点处，需要先进行一次右旋，转变成右右情况，再进行一次左旋</p>
+<p>对于右左情况的右旋，是将失衡节点（3）的右子树（也可理解为失衡部分）根节点（5）进行右旋，旋转的支点是“右左”中的“左”（4），旋转操作过程类比上述过程，不再赘述。一次右旋后，整体的树变成了右右情况，再相应进行一次左旋即可实现平衡</p>
+</li>
+</ul>
+<h4 id="AVL的缺陷"><a href="#AVL的缺陷" class="headerlink" title="AVL的缺陷"></a>AVL的缺陷</h4><p>AVL树确实能够使查找插入和删除的时间复杂度在平均和最坏的情况下都为<code>O(logn)</code>，但是AVL树所维持的平衡条件是每个节点的左右子树深度差≤1，这个条件是相对苛刻的，这意味着在程序实际执行过程中可能会出现大量的左旋右旋操作来维持平衡，旋转操作是需要消耗时间的，从而降低了效率</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树（Red–black tree）是一种自平衡二叉查找树，红黑树相对于AVL树来说，牺牲了部分平衡性以换取插入删除操作时少量的旋转操作，整体来说性能要优于AVL树</p>
+<h4 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h4><p>红黑树是每个节点都带有颜色属性的自平衡二叉查找树，除了具有BST的一般特性外，红黑树还具有如下五个重要的特性：</p>
+<ol>
+<li>节点要么是红色要么是黑色</li>
+<li>根节点是黑色</li>
+<li>所有叶子都是黑色（特别注意的是，红黑树中的叶子是NIL节点）</li>
+<li>每个红色节点必须有两个黑色的子节点（从每个叶子到根的所有路径上不能有两个连续的红色节点）</li>
+<li>从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点</li>
+</ol>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/RBT.2foo8sro5w74.png" alt="RBT"></p>
+<h4 id="分析理解"><a href="#分析理解" class="headerlink" title="分析理解"></a>分析理解</h4><p>对于红黑树上述的五条重要特性，前面几条可能很好理解，但对于第五条可能会觉得有点懵(￣▽￣)”</p>
+<p>下面就来重点理解一下<strong>“从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点”</strong>这条特性意味着什么</p>
+<p>考虑两种极端情况，一种极端情况是没有红节点，两条路径上都是黑节点（这是允许的），那么意味着两条路径上的节点数相等</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/RBT_analysis2.15bif3v4vgqo.png" alt="RBT_analysis2"></p>
+<p>另一种极端情况是，一条路径上没有红节点，另一条路径上尽可能多的出现红节点。而又根据性质4，从每个叶子到根的所有路径上不能有两个连续的红色节点，意味着<strong>红黑树中最长路径就是一条红黑交替的路径</strong>，这种情况两边节点数相差一倍</p>
+<p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/RBT_analysis.1d31u1tct36o.png" alt="RBT_analysis"></p>
+<p>由此，我们不难发现：<strong>红黑树的平衡是将左右子树的深度差维持在一倍以内</strong></p>
+<h4 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p><img lazyload src="/images/loading.svg" data-src="https://cdn.jsdelivr.net/gh/PiccoloDevil/image-hosting@master/20210119/RBT_time.2e5mr67xq70g.png" alt="RBT_time"></p>
+<p>AVL树由于将左右子树的深差控制在1以内，所以树的高度也控制在<code>logn</code>数量级，这使得AVL树查找插入和删除的时间复杂度在平均和最坏的情况下都为<code>O(logn)</code>。但是为什么红黑树将左右子树的深度差控制在一倍以内，也能实现平均和最坏情况都是<code>O(logn)</code>的复杂度呢？</p>
+<p>简单分析如下：</p>
+<blockquote>
+<p>n：红黑树的节点总数；n(r)：红节点总数；n(b)：黑节点总数</p>
+<p>n = n(r) + n(b)</p>
+</blockquote>
+<p>如果将红黑树中的红节点盖住不看，那么整棵树就是一颗AVL树，深度为<code>logn(b)</code>。再考虑红节点的加入对红黑树的影响，最差的情况下红黑交替出现，也就是说整棵树的深度会变成原来的两倍，即<code>O(2*logn(b))</code>。但是，时间复杂度讨论的是n（节点总数）。根据性质4，从根到叶子的任何路径上至少有一半的节点是黑色，由于时间复杂度讨论的是数量级，所以常量不影响</p>
+<script type="math/tex; mode=display">
+O(2*log_2n(b)) -> O(2*log_2\frac{n}{2}) -> O(log_2\frac{n}{2}) -> O(log_2n-1) -> O(log_2n)</script><p>当然，上述只是简单的分析，需要严格证明红黑树的时间复杂度为<code>O(logn)</code>的话，还需要利用数学归纳法去证明，证明过程中还可以引申出一条定理：<strong>一棵含有n个节点的红黑树的高度至多为<code>2log(n+1)</code></strong></p>
+<h4 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h4><p>由于红黑树是一种特殊的二叉搜索树，对于只读操作（比如：查找），与一般的二叉搜索树操作相同。但是插入和删除操作需要进行调整，以使得其继续符合红黑树的特性。红黑树的插入和删除操作很复杂，但是操作时间仍可以保持为<code>O(logn)</code></p>
+<p><strong>插入</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>父节点</th>
+<th>叔节点</th>
+<th>类型</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>黑</td>
+<td>—</td>
+<td>—</td>
+<td>无需操作</td>
+</tr>
+<tr>
+<td>红</td>
+<td>红</td>
+<td>—</td>
+<td>父叔都变黑，祖父变红。祖父变成当前节点，递归这个规则</td>
+</tr>
+<tr>
+<td>红</td>
+<td>黑</td>
+<td>左左</td>
+<td>右旋 + 变色</td>
+</tr>
+<tr>
+<td>红</td>
+<td>黑</td>
+<td>右右</td>
+<td>左旋 + 变色</td>
+</tr>
+<tr>
+<td>红</td>
+<td>黑</td>
+<td>左右</td>
+<td>先左旋，再右旋 + 变色</td>
+</tr>
+<tr>
+<td>红</td>
+<td>黑</td>
+<td>右左</td>
+<td>先右旋，再左旋 + 变色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>删除</strong></p>
+<p><del>操作较复杂，暂不展开叙述…</del></p>
+<h4 id="可视化演示"><a href="#可视化演示" class="headerlink" title="可视化演示"></a>可视化演示</h4><p><a class="link" target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">https://www.cs.usfca.edu/~galles/visualization/RedBlack.html<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>普通的二叉搜索树存在不平衡的问题，可能会导致在最坏的情况下退化成链表，从而使操作的时间复杂度由<code>O(logn)</code>退化成<code>O(n)</code>。AVL树解决了这一问题，通过旋转操作使树达到自平衡，从而保证了即使在最坏的情况下，操作的时间复杂度也能维持在<code>O(logn)</code>。但是AVL树维护平衡也需要很大的代价，苛刻的平衡条件（深差≤1）使得插入和删除操作可能需要大量频繁的旋转操作来调整树结构，这降低了效率。于是红黑树诞生了，它相当于一种折中的二叉搜索树，在不加限制的不平衡与苛刻的平衡之间维持了一种相对宽松的平衡（深差一倍以内），牺牲了部分平衡性以换来插入删除操作时较AVL更少量的旋转操作。事实证明，这种设计使得红黑树的整体性能要优于AVL树</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a class="link" target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Pp4y1D7u1">https://www.bilibili.com/video/BV1Pp4y1D7u1<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91">https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/01/19/Java%E7%9A%84%E5%80%BC%E4%BC%A0%E9%80%92/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Java的值传递</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/01/06/Java%E5%9F%BA%E7%A1%80/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Java基础</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2018</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Piccolo Devil</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91"><span class="nav-text">二叉搜索树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">复杂度分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84"><span class="nav-text">对比有序数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BST%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="nav-text">BST的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AVL%E6%A0%91"><span class="nav-text">AVL树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-1"><span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90-1"><span class="nav-text">复杂度分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A6%E6%97%8B%E5%8F%B3%E6%97%8B"><span class="nav-text">左旋右旋</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AVL%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="nav-text">AVL的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="nav-text">红黑树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-2"><span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E7%90%86%E8%A7%A3"><span class="nav-text">分析理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90-2"><span class="nav-text">复杂度分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-text">操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E6%BC%94%E7%A4%BA"><span class="nav-text">可视化演示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-text">References</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/code-copy.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts pjax">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/toc.js"></script>
+    
+</div>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.2/source/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd();
+            pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            KEEP.refresh();
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
